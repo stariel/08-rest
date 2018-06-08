@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/stariel/08-rest/issues"
   },
-  "homepage": "https://github.com/stariel/08-rest#readme"
+  "homepage": "https://github.com/stariel/08-rest#readme",
+  "dependencies": {
+    "superagent": "^3.8.3"
+  }
 }

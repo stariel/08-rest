@@ -4,7 +4,9 @@
   "description": "![cf](https://i.imgur.com/7v5ASc8.png) Lab 08: REST ======",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint **/*.js",
+    "test": "jest --coverage --verbose",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,7 @@
   },
   "homepage": "https://github.com/stariel/08-rest#readme",
   "dependencies": {
+    "dotenv": "^6.0.0",
     "superagent": "^3.8.3"
   }
 }

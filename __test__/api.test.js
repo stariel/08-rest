@@ -6,15 +6,13 @@ let superagent = require('superagent');
 
 describe('api', () => {
 
-  it('should return ID for GET /?id=123', () => {
-    // const expected = 'ID: 123 was requested';
-    // let actual = 
-
-    // expect(actual).toBe(expected);
-
+  xit('should return ID for GET /?id=123', () => {
+    const expected = 'ID: 123 was requested';
     superagent
       .get('http://localhost:3000/api/v1/cats?id=123')
       .then(data => console.log(data))
       .catch(err => console.error(err));
+
+    expect(result).toBe(expected);
   });
 });

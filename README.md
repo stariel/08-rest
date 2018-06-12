@@ -1,4 +1,4 @@
-![cf](https://i.imgur.com/7v5ASc8.png) Lab 08: REST
+[![Build Status](https://travis-ci.com/stariel/08-rest.svg?branch=master)](https://travis-ci.com/stariel/08-rest)
 ======
 
 ## Learning Objectives  

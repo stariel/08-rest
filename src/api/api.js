@@ -3,29 +3,53 @@
 const router = require('../lib/router.js');
 
 router.get('/api/v1/cats', (req,res) => {
-  let id = req.query.id;
-  if (id) {
+  if (!req.url.query.id) {
+    res.statusCode = 404;
+    res.statusMessage = 'OK';
+    res.write(`Not Found`);
+  } else if(req.url.query.id) {
     res.statusCode = 200;
-    res.statusMessage = `ID: ${id} was requested`;
-  }
-  else {
+    res.statusMessage = 'OK';
+    res.write(`ID: ${req.url.query.id} was requested`);
+  }  else {
     res.statusCode = 400;
-    res.statusMessage = 'bad request';
+    res.statusMessage = 'Bad Request';
+    res.write('Bad Request');
   }
   res.end();
 });
 
-/**
- * POST Route (/data)
- * Accepts a JSON object and simply regurgitates it back to the browser
- * test with httpie:
- *     echo '{"title":"Go Home","content":"foobar"}' | http post http://localhost:8080/data
- */
 router.post('/data', (req,res) => {
   res.statusCode = 200;
   res.statusMessage = 'OK';
   res.write( JSON.stringify(req.body) );
   res.end();
+});
+
+router.put('/api/v1/cats', (req,res) => {
+  if(req.url.query.id) {
+    res.statusCode = 200;
+    res.statusMessage = 'OK';
+    res.write(JSON.stringify(req.body) );
+  } else {
+    res.statusCode = 404;
+    res.write(`Not found`);
+  }
+  res.end();
+});
+
+router.delete('/api/v1/cats', (req,res) => {
+  if(req.url.query.id) {
+    res.statusCode = 200;
+    res.statusMessage = 'OK';
+    res.write(`ID: ${req.url.query.id} was deleted`);
+  } else {
+    res.statusCode = 404;
+    res.statusMessage = 'OK';
+    res.write(`Not found`);
+  }
+  res.end();
+
 });
 
 module.exports = {};

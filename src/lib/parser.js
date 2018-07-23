@@ -1,6 +1,5 @@
 'use strict';
 
-// First Party Modules
 const url = require('url');
 const queryString = require('querystring');
 

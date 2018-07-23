@@ -1,18 +1,114 @@
 'use strict';
 
-let api = require('../src/api/api.js');
+let app = require('../src/app.js');
 
 let superagent = require('superagent');
 
 describe('api', () => {
 
-  xit('should return ID for GET /?id=123', () => {
-    const expected = 'ID: 123 was requested';
-    superagent
-      .get('http://localhost:3000/api/v1/cats?id=123')
-      .then(data => console.log(data))
-      .catch(err => console.error(err));
-
-    expect(result).toBe(expected);
+  beforeAll( () => {
+    app.start(3000);
   });
+
+  afterAll( () => {
+    app.stop();
+  });
+
+  it('handles an invalid get request with a 404', () => {
+
+    return superagent.get('http://localhost:3000/blah')
+      .then(response => {
+        console.log(response);
+      })
+      .catch(response => expect(response.status).toEqual(404));
+
+  });
+
+  it('should return 200 for base route', () => {
+    return superagent.get('http://localhost:3000/api/v1/cats')
+      .then(response => {
+        expect(response.status).toBe(200);
+      });
+  });
+
+  it('should return ID for GET /?id=123', () => {
+    const expected = 'ID: 123 was requested';
+    return superagent.get('http://localhost:3000/api/v1/cats?id=123')
+      .then(response => {
+        expect(response.text).toBe(expected);
+      });
+  });
+
+  it('should return bad request when no ID is included', () => {
+    return superagent.get('http://localhost:3000/api/v1/cats')
+      .catch(err => {
+        expect(err.status).toBe(400);
+        expect(err.response.text).toBe('Bad Request');
+      });
+  });
+
+  it('if given bad id, should return not found', () => {
+    return superagent.get('http://localhost:3000/api/v1/cats?id=0')
+      .catch(err => {
+        expect(err.status).toBe(404);
+        expect(err.response.text).toBe('Not Found');
+      });
+  });
+
+  it('handles a good post request', () => {
+    let obj = {id:'Bob'};
+    return superagent.post('http://localhost:3000/api/v1/cats')
+      .send(obj)
+      .then(response => {
+        expect(response.text).toEqual(expect.stringContaining('{"id":"Bob"}'));
+      })
+      .catch(console.err);
+  });
+
+  it('handles a post request with no body', () => {
+    return superagent.post('http://localhost:3000/api/v1/cats')
+      .catch(err => {
+        console.log(err.status);
+        expect(err.status).toBe(400);
+        expect(err.response.text).toEqual('Bad Request');
+      });
+  });
+
+  it('handles a good put request', () => {
+
+    let obj = {id:'2'};
+    return superagent.put('http://localhost:3000/api/v1/cats?id=2')
+      .send(obj)
+      .then(response => {
+        expect(response.text).toEqual(expect.stringContaining('{"id":"2"}'));
+      })
+      .catch(console.err);
+  });
+
+  it('handles no id for put', () => {
+
+    let obj = {name:'Jerry'};
+    return superagent.put('http://localhost:3000/api/v1/cats')
+      .send(obj)
+      .catch(err => {
+        expect(err.response.text).toEqual(expect.stringContaining('Not Found'));
+      });
+
+  });
+
+  it('should handle good delete request', () => {
+    return superagent.delete('http://localhost:3000/api/v1/cats?id=12')
+      .then(response => {
+        expect(response.text).toEqual(`ID: 12 has been deleted`);
+      });
+  });
+  
+  it('should handle a bad delete request', () => {
+    return superagent.delete('http://localhost:3000/api/v1/cats?blah')
+      .catch(err => {
+        expect(err.response.text).toEqual(`Not Found`);
+      });
+
+  });
+
 });

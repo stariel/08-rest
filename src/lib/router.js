@@ -4,10 +4,8 @@ const parser = require('./parser.js');
 
 const router = module.exports = {};
 
-// This object will hold our routing table
 router.routes = {};
 
-// This is the list of REST Verbs we will accept requests for
 const methods = ['GET','PUT','PATCH','POST','DELETE'];
 
 methods.forEach( (method) => {

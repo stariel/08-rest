@@ -3,7 +3,7 @@
 const router = require('../lib/router.js');
 
 router.get('/api/v1/cats', (req,res) => {
-  if (!req.url.query.id) {
+  if (req.url.query.id == false) {
     res.statusCode = 404;
     res.statusMessage = 'OK';
     res.write(`Not Found`);

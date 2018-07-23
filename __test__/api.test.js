@@ -1,8 +1,7 @@
 'use strict';
 
-let app = require('../src/app.js');
-
 let superagent = require('superagent');
+let app = require('../src/app.js');
 
 describe('api', () => {
 
@@ -15,12 +14,9 @@ describe('api', () => {
   });
 
   it('handles an invalid get request with a 404', () => {
-
-    return superagent.get('http://localhost:3000/blah')
-      .then(response => {
-        console.log(response);
-      })
-      .catch(response => expect(response.status).toEqual(404));
+    return superagent.get('http://localhost:3000/api/vi/cats/blah')
+      .then(response => expect(response.status).toBe(404));
+    // .catch(response => );
 
   });
 
@@ -31,7 +27,7 @@ describe('api', () => {
       });
   });
 
-  xit('should return ID for GET /?id=123', () => {
+  it('should return ID for GET /?id=123', () => {
     const expected = 'ID: 123 was requested';
     return superagent.get('http://localhost:3000/api/v1/cats?id=123')
       .then(response => {

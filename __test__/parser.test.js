@@ -26,7 +26,7 @@ describe('URL Parser', () => {
     let req = { url: 'http://localhost' };
     return parser(req)
       .then( request => expect(typeof request.url).toEqual('object') )
-      .catch( err => console.error(err) );
+      .catch( err => console.log(err) );
   });
 
   it('given a complicated url, does all the things', () => {
